@@ -3,28 +3,7 @@ import { useState } from 'react';
 import { FaTrashAlt } from 'react-icons/fa'
 
 const Content = () => {
-
-    // const [name, setName] = useState('Awwal');
-    // const handleChangeName = () => {
-    //     const names = ['Bob', 'Mathew', 'Kelvin'];
-    //     const int = Math.floor(Math.random() * 3);
-    //     setName(names[int]);
-    // }
-    // const handleClick1 = () =>{
-    //     setCount(count + 1);
-    //     console.log(count);
-    // }
-
-    // const handleClick2 = (name) =>{
-    //     console.log(`${name} was clicked`)
-    // }
-    // const handleClick3 = (e) =>{
-    //     console.log(e.target.innerText)
-    // }
-    // const handleClick4 = () =>{
-    //     console.log(count);
-    // }
-    const[items, setItems] = useState([
+    const [items, setItems] = useState([
         {
             id: 1,
             checked: false,
@@ -41,6 +20,17 @@ const Content = () => {
             item: 'item 3'
         }
     ])
+
+    const handleCheck = (id) => {
+        const listItems = items.map((item) => item.id === id ? { ...item, checked: !item.checked } : item);
+        setItems(listItems);
+        localStorage.setItem('Shopping List', JSON.stringify(listItems));
+    }
+    const handleDelete = (id) =>{
+        const listItems = items.filter( item => item.id !== id)
+        setItems(listItems);
+        localStorage.setItem('Shoppig List', JSON.stringify(listItems));
+    }
 
 
     return (
@@ -63,22 +53,32 @@ const Content = () => {
             <button onClick={(e)=>handleClick3(e)}>
                 Click It
             </button> */}
+            {items.length ? (
             <ul>
                 {items.map((item) => (
-                    <li className='items' key={items.id}>
+                    <li className='items' key={item.id}>
                         <input
                             type="checkbox"
+                            onChange={() => handleCheck(item.id)}
                             checked={item.checked}
                         />
-                        <label>{item.item}</label>
+                        <label 
+                        style={item.checked? {textDecoration: "line-through"}: null}
+                        onDoubleClick={()=>handleCheck(item.id)}
+                        >
+                            {item.item}
+                        </label>
                         <FaTrashAlt
                             role='button'
                             tabIndex='0'
+                            onClick={()=>handleDelete(item.id)}
                         />
                     </li>
                 ))}
             </ul>
-
+            ): (
+                <p style={{margin: "2rem"}}> Your List is Empty</p>
+            )}
         </main>
     )
 }
