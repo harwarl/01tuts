@@ -1,0 +1,21 @@
+{
+    "items": [
+        {
+            "id": 1,
+            "checked": false,
+            "item": "bag"
+        },
+
+        {
+            "id": 2,
+            "checked": false,
+            "item": "perfume"
+        },
+        
+        {
+            "id": 3,
+            "checked": false,
+            "item": "hairCream"
+        }
+    ]
+}
